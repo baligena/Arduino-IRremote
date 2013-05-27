@@ -97,6 +97,16 @@ void storeCode(decode_results *results) {
   }
 }
 
+void print_sent_raw_codes(){
+  Serial.print("Working raw codes: ");
+  for(int i = 0; i <= codeLen; i++){
+    Serial.print(rawCodes[i]);
+    Serial.print(",");
+  }
+  Serial.println("");
+  
+}
+
 void sendCode(int repeat) {
   if (codeType == NEC) {
     if (repeat) {
@@ -133,10 +143,12 @@ void sendCode(int repeat) {
       Serial.println(codeValue, HEX);
     }
   } 
+  
   else if (codeType == UNKNOWN /* i.e. raw */) {
     // Assume 38 KHz
     irsend.sendRaw(rawCodes, codeLen, 38);
     Serial.println("Sent raw");
+    print_sent_raw_codes();
   }
 }
 
